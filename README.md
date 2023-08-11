@@ -1,6 +1,11 @@
 # Дипломная работа профессии «Тестировщик ПО»
 [Задание](https://github.com/netology-code/qa-diploma)
 
+## Документы
+* [План автоматизации](https://github.com/Mlle1Maniaque/QA-Diploma/blob/main/documents/Plan.md)
+* [Отчет по итогам тестирования](https://github.com/Mlle1Maniaque/QA-Diploma/blob/main/documents/Report.md)
+* [Отчет по автоматизации](https://github.com/Mlle1Maniaque/QA-Diploma/blob/main/documents/Summary.md)
+
 ## Описание приложения
 Приложение предстовляёт собой веб-сервис, который предлагает купить тур по определённой цене двумя способами:
 Обычная оплата по дебетовой карте.
