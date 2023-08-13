@@ -21,7 +21,7 @@ public class DataHelper {
         return faker.number().digits(16);
     }
 
-    public static String getCardNumberRandom() {
+    public static String getCardNumberShort() {
         int randomNumberLength = faker.random().nextInt(16);
         return faker.number().digits(randomNumberLength);
     }
@@ -30,32 +30,12 @@ public class DataHelper {
         return "";
     }
 
-    public static String getPrevMonth() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate prevMonth = currentDate.minusMonths(1);
-        return prevMonth.format(DateTimeFormatter.ofPattern("MM"));
+    public static String generateMonth(int addMonths) {
+        return LocalDate.now().plusMonths(addMonths).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    public static String getCurrentYear() {
-        LocalDate currentDate = LocalDate.now();
-        int currentYear = currentDate.getYear();
-        return String.format("%02d", currentYear % 100);
-    }
-
-    public static String getPrevYear() {
-        int currentYear = Integer.parseInt(getCurrentYear());
-        int prevYear = currentYear - 1;
-        return String.format("%02d", prevYear % 100);
-    }
-
-    public static String getYearPlusFive() {
-        int currentYear = Integer.parseInt(getCurrentYear());
-        int plusYear = currentYear + 5;
-        return String.format("%02d", plusYear % 100);
-    }
-
-    public static String getMonth() {
-        return String.format("%02d", faker.number().numberBetween(1, 13));
+    public static String generateYear(int addYears) {
+        return LocalDate.now().plusYears(addYears).format(DateTimeFormatter.ofPattern("yy"));
     }
 
     public static String getInvalidMonth() {
@@ -64,10 +44,6 @@ public class DataHelper {
 
     public static String getEmptyMonth() {
         return "";
-    }
-
-    public static String getYear() {
-        return String.format("%02d", faker.number().numberBetween(24, 29));
     }
 
     public static String getEmptyYear() {
@@ -90,19 +66,20 @@ public class DataHelper {
         return "";
     }
 
-    public static String getCVC() {
-        return faker.number().digits(3);
-    }
-
-    public static String getCVC1number() {
-        return faker.number().digits(1);
-    }
-
-    public static String getCVC2number() {
-        return faker.number().digits(2);
+    public static String getCVC(int length) {
+        return faker.number().digits(length);
     }
 
     public static String getEmptyCVC() {
+        return "";
+    }
+
+    public static String getEmptyValue() {
+        getCardNumberEmpty();
+        getEmptyMonth();
+        getEmptyYear();
+        getEmptyOwner();
+        getEmptyCVC();
         return "";
     }
 }

@@ -30,10 +30,10 @@ public class TestService {
     void shouldPayValidCardApproved() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageSuccessfully();
 
@@ -45,10 +45,10 @@ public class TestService {
     void shouldCreditValidCardApproved() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageSuccessfully();
 
@@ -60,10 +60,10 @@ public class TestService {
     void shouldPayValidCardDeclined() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberDeclined());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageError();
 
@@ -75,10 +75,10 @@ public class TestService {
     void shouldCreditValidDeclined() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageError();
 
@@ -86,63 +86,64 @@ public class TestService {
     }
 
     @Test
-    @DisplayName("Оплата тура по несуществующей карте")
-    void shouldPayInvalidCard() {
-        orderPage.buyByCard();
-        orderPage.setCardNumber(DataHelper.getCardNumberNotExist());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
-        orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
-        orderPage.clickContinueButton();
-        orderPage.messageError();
-
-        Assertions.assertEquals(0, DataHelperDB.getOrderEntityCount());
-    }
-
-    @Test
     @DisplayName("Кредит на тур по несуществующей карте")
     void shouldCreditInvalidCard() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberNotExist());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageError();
 
-        Assertions.assertEquals(0, DataHelperDB.getOrderEntityCount());
+        Assertions.assertEquals(0, DataHelperDB.getOrderTransactionCount());
     }
 
     @Test
     @DisplayName("Оплата тура по карте с невалидными данными")
     void shouldPayNotFilledCard() {
         orderPage.buyByCard();
-        orderPage.setCardNumber(DataHelper.getCardNumberRandom());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setCardNumber(DataHelper.getCardNumberShort());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
 
-        Assertions.assertEquals(0, DataHelperDB.getOrderEntityCount());
+        Assertions.assertEquals(0, DataHelperDB.getOrderTransactionCount());
     }
 
     @Test
     @DisplayName("Кредит на тур по карте с невалидными данными")
     void shouldCreditNotFilledCard() {
         orderPage.buyByCreditCard();
-        orderPage.setCardNumber(DataHelper.getCardNumberRandom());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setCardNumber(DataHelper.getCardNumberShort());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
 
-        Assertions.assertEquals(0, DataHelperDB.getOrderEntityCount());
+        Assertions.assertEquals(0, DataHelperDB.getOrderTransactionCount());
+    }
+
+
+    @Test
+    @DisplayName("Оплата тура по несуществующей карте")
+    void shouldPayInvalidCard() {
+        orderPage.buyByCard();
+        orderPage.setCardNumber(DataHelper.getCardNumberNotExist());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
+        orderPage.setOwnerName(DataHelper.getOwnersName());
+        orderPage.setCVC(DataHelper.getCVC(3));
+        orderPage.clickContinueButton();
+        orderPage.messageError();
+
+        Assertions.assertEquals(0, DataHelperDB.getOrderTransactionCount());
     }
 
     @Test
@@ -150,10 +151,10 @@ public class TestService {
     void shouldPayExpiredCard() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getPrevMonth());
-        orderPage.setYear(DataHelper.getCurrentYear());
+        orderPage.setMonth(DataHelper.generateMonth(-1));
+        orderPage.setYear(DataHelper.generateYear(0));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfInvalidDate();
     }
@@ -163,10 +164,10 @@ public class TestService {
     void shouldCreditExpiredCard() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getPrevMonth());
-        orderPage.setYear(DataHelper.getCurrentYear());
+        orderPage.setMonth(DataHelper.generateMonth(-1));
+        orderPage.setYear(DataHelper.generateYear(0));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfInvalidDate();
     }
@@ -177,9 +178,9 @@ public class TestService {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
         orderPage.setMonth(DataHelper.getInvalidMonth());
-        orderPage.setYear(DataHelper.getCurrentYear());
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfInvalidDate();
     }
@@ -190,9 +191,9 @@ public class TestService {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
         orderPage.setMonth(DataHelper.getInvalidMonth());
-        orderPage.setYear(DataHelper.getCurrentYear());
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfInvalidDate();
     }
@@ -203,9 +204,9 @@ public class TestService {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
         orderPage.setMonth(DataHelper.getEmptyMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -216,9 +217,9 @@ public class TestService {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
         orderPage.setMonth(DataHelper.getEmptyMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -228,10 +229,10 @@ public class TestService {
     void shouldPayExpiredYear() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getPrevYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(-1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfCardExpired();
     }
@@ -241,10 +242,10 @@ public class TestService {
     void shouldCreditExpiredYear() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getPrevYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(-1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfCardExpired();
     }
@@ -254,10 +255,10 @@ public class TestService {
     void shouldPayYearPlusFive() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYearPlusFive());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(5));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfInvalidDate();
     }
@@ -267,10 +268,10 @@ public class TestService {
     void shouldCreditYearPlusFive() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYearPlusFive());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(5));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfInvalidDate();
     }
@@ -280,10 +281,10 @@ public class TestService {
     void shouldPayEmptyYear() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
+        orderPage.setMonth(DataHelper.generateMonth(1));
         orderPage.setYear(DataHelper.getEmptyYear());
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -293,10 +294,10 @@ public class TestService {
     void shouldCreditEmptyYear() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
+        orderPage.setMonth(DataHelper.generateMonth(1));
         orderPage.setYear(DataHelper.getEmptyYear());
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -306,10 +307,10 @@ public class TestService {
     void shouldPayNumberName() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getNumberOwner());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfRequiredForm();
     }
@@ -319,10 +320,10 @@ public class TestService {
     void shouldCreditNumberName() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getNumberOwner());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfRequiredForm();
     }
@@ -332,10 +333,10 @@ public class TestService {
     void shouldPaySymbolsName() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getSpecialCharactersOwner());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfRequiredForm();
     }
@@ -345,10 +346,10 @@ public class TestService {
     void shouldCreditSymbolsName() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getSpecialCharactersOwner());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfRequiredForm();
     }
@@ -358,10 +359,10 @@ public class TestService {
     void shouldPayEmptyName() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getEmptyOwner());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfRequiredForm();
     }
@@ -371,10 +372,10 @@ public class TestService {
     void shouldCreditEmptyName() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getEmptyOwner());
-        orderPage.setCVC(DataHelper.getCVC());
+        orderPage.setCVC(DataHelper.getCVC(3));
         orderPage.clickContinueButton();
         orderPage.messageOfRequiredForm();
     }
@@ -384,10 +385,10 @@ public class TestService {
     void shouldPayCVC1() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC1number());
+        orderPage.setCVC(DataHelper.getCVC(1));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -397,10 +398,10 @@ public class TestService {
     void shouldCreditCVC1() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC1number());
+        orderPage.setCVC(DataHelper.getCVC(1));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -410,10 +411,10 @@ public class TestService {
     void shouldPayCVC2() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC2number());
+        orderPage.setCVC(DataHelper.getCVC(2));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -423,10 +424,10 @@ public class TestService {
     void shouldCreditCVC2() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
-        orderPage.setCVC(DataHelper.getCVC2number());
+        orderPage.setCVC(DataHelper.getCVC(2));
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -436,8 +437,8 @@ public class TestService {
     void shouldPayEmptyCVC() {
         orderPage.buyByCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
         orderPage.setCVC(DataHelper.getEmptyCVC());
         orderPage.clickContinueButton();
@@ -449,8 +450,8 @@ public class TestService {
     void shouldCreditEmptyCVC() {
         orderPage.buyByCreditCard();
         orderPage.setCardNumber(DataHelper.getCardNumberApproved());
-        orderPage.setMonth(DataHelper.getMonth());
-        orderPage.setYear(DataHelper.getYear());
+        orderPage.setMonth(DataHelper.generateMonth(1));
+        orderPage.setYear(DataHelper.generateYear(1));
         orderPage.setOwnerName(DataHelper.getOwnersName());
         orderPage.setCVC(DataHelper.getEmptyCVC());
         orderPage.clickContinueButton();
@@ -461,11 +462,11 @@ public class TestService {
     @DisplayName("Оплата тура с незаполненными полями")
     void shouldPayEmptyFields() {
         orderPage.buyByCard();
-        orderPage.setCardNumber(DataHelper.getCardNumberEmpty());
-        orderPage.setMonth(DataHelper.getEmptyMonth());
-        orderPage.setYear(DataHelper.getEmptyYear());
-        orderPage.setOwnerName(DataHelper.getEmptyOwner());
-        orderPage.setCVC(DataHelper.getEmptyCVC());
+        orderPage.setCardNumber(DataHelper.getEmptyValue());
+        orderPage.setMonth(DataHelper.getEmptyValue());
+        orderPage.setYear(DataHelper.getEmptyValue());
+        orderPage.setOwnerName(DataHelper.getEmptyValue());
+        orderPage.setCVC(DataHelper.getEmptyValue());
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
@@ -474,11 +475,11 @@ public class TestService {
     @DisplayName("Кредит на тур с незаполненными полями")
     void shouldCreditEmptyFields() {
         orderPage.buyByCreditCard();
-        orderPage.setCardNumber(DataHelper.getCardNumberEmpty());
-        orderPage.setMonth(DataHelper.getEmptyMonth());
-        orderPage.setYear(DataHelper.getEmptyYear());
-        orderPage.setOwnerName(DataHelper.getEmptyOwner());
-        orderPage.setCVC(DataHelper.getEmptyCVC());
+        orderPage.setCardNumber(DataHelper.getEmptyValue());
+        orderPage.setMonth(DataHelper.getEmptyValue());
+        orderPage.setYear(DataHelper.getEmptyValue());
+        orderPage.setOwnerName(DataHelper.getEmptyValue());
+        orderPage.setCVC(DataHelper.getEmptyValue());
         orderPage.clickContinueButton();
         orderPage.messageOfIncorrectFormat();
     }
