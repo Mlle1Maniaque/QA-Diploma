@@ -10,6 +10,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class OrderPage {
+    private final String appUrl;
     private SelenideElement buttonBuy = $$(".button__text").find(exactText("Купить"));
     private SelenideElement buttonBuyOnCredit = $$(".button__text").find(exactText("Купить в кредит"));
     private SelenideElement cardNumberForm = $$(".input__inner").findBy(text("Номер карты"))
@@ -38,14 +39,18 @@ public class OrderPage {
     private SelenideElement requiredForm = $$(".input__inner span.input__sub")
             .find(exactText("Поле обязательно для заполнения"));
 
+    public OrderPage(String appUrl) {
+        this.appUrl = appUrl;
+    }
+
     public void buyByCard() {
-        open("http://localhost:8080/");
+        open(appUrl);
         buttonBuy.click();
         cardPay.shouldBe(visible);
     }
 
     public void buyByCreditCard() {
-        open("http://localhost:8080/");
+        open(appUrl);
         buttonBuyOnCredit.click();
         creditByCard.shouldBe(visible);
     }

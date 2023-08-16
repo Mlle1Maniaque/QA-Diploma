@@ -26,10 +26,6 @@ public class DataHelper {
         return faker.number().digits(randomNumberLength);
     }
 
-    public static String getCardNumberEmpty() {
-        return "";
-    }
-
     public static String generateMonth(int addMonths) {
         return LocalDate.now().plusMonths(addMonths).format(DateTimeFormatter.ofPattern("MM"));
     }
@@ -40,14 +36,6 @@ public class DataHelper {
 
     public static String getInvalidMonth() {
         return "00";
-    }
-
-    public static String getEmptyMonth() {
-        return "";
-    }
-
-    public static String getEmptyYear() {
-        return "";
     }
 
     public static String getOwnersName() {
@@ -62,24 +50,11 @@ public class DataHelper {
         return "!@#$%^&*()_+-";
     }
 
-    public static String getEmptyOwner() {
-        return "";
-    }
-
     public static String getCVC(int length) {
         return faker.number().digits(length);
     }
 
-    public static String getEmptyCVC() {
-        return "";
-    }
-
     public static String getEmptyValue() {
-        getCardNumberEmpty();
-        getEmptyMonth();
-        getEmptyYear();
-        getEmptyOwner();
-        getEmptyCVC();
         return "";
     }
 }
