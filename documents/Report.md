@@ -7,10 +7,10 @@
 ## 2. Количество тест-кейсов:
 
 Всего было выполнено 34 тест-кейса, которые охватывают различные сценарии использования приложения.
-![Screenshot 2023-08-13 145032](https://github.com/Mlle1Maniaque/QA-Diploma/assets/127653126/0cf03c44-5136-4218-b23b-08d68a0797ef)
+![изображение](https://github.com/Mlle1Maniaque/QA-Diploma/assets/127653126/f77fb3e5-8506-4b70-8b40-aa9e1badfe26)
 
 ## 3. Процент успешных и неуспешных тест-кейсов:
-![Screenshot 2023-08-13 144921](https://github.com/Mlle1Maniaque/QA-Diploma/assets/127653126/d6537275-547b-4d60-b582-31c76fe6d524)
+![изображение](https://github.com/Mlle1Maniaque/QA-Diploma/assets/127653126/d1951c9b-1479-4ec4-92c9-84b00bd67e62)
 
 ## 4. Общие рекомендации:
 
