@@ -17,7 +17,7 @@ public class CreditTest {
 
     @BeforeEach
     void setUp() {
-        String appUrl = System.getProperty("appUrl", "http://localhost:8080/");
+        String appUrl = System.getProperty("sut.url", "http://localhost:8080/");
         orderPage = new OrderPage(appUrl);
     }
 
